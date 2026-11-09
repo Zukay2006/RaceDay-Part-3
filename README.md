@@ -6,7 +6,7 @@
 
 This is Part 3 of the RaceDay project. The MVC application communicates with the RaceDay REST API developed in Part 2.
 
-## Main Features 
+## Main Features  
 
 ### Participant Features
 - Register and log in.
