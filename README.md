@@ -10,7 +10,7 @@ This is Part 3 of the RaceDay project. The MVC application communicates with the
 
 ### Participant Features
 - Register and log in.
-- Browse and view sporting events.
+- Browse and view sporting events. 
 - View event categories.
 - Enrol in events.
 - View personal enrolments.
