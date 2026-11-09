@@ -1,0 +1,84 @@
+﻿@model List<RaceDay.MVC.Models.EventViewModel>
+
+@{
+    ViewData["Title"] = "Upcoming Events";
+}
+
+<div class="container mt-4">
+
+    <div class="p-5 mb-4 bg-dark text-white rounded-3">
+        <h1 class="display-5 fw-bold">RaceDay</h1>
+        <p class="fs-5">Find your next challenge. Register. Race. Achieve.</p>
+    </div>
+
+    <h2 class="fw-bold mb-4">Upcoming Events</h2>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-warning">@ViewBag.Error</div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No upcoming events are currently available. Check back soon!
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var raceEvent in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow h-100">
+                        <div class="card-body">
+
+                            <span class="badge bg-success mb-2">
+                                @raceEvent.Status
+                            </span>
+
+                            <h4 class="fw-bold">
+                                @raceEvent.EventName
+                            </h4>
+
+                            <p class="text-muted">
+                                @raceEvent.Description
+                            </p>
+
+                            <hr />
+
+                            <p>
+                                <strong>Date:</strong>
+                                @raceEvent.EventDate.ToString("dd MMMM yyyy")
+                            </p>
+
+                            <p>
+                                <strong>Location:</strong>
+                                @raceEvent.Location
+                            </p>
+
+                            <p>
+                                <strong>Distance:</strong>
+                                @raceEvent.DistanceKM km
+                            </p>
+
+                            <p>
+                                <strong>Type:</strong>
+                                @raceEvent.EventType
+                            </p>
+
+                            <a asp-controller="Events"
+                               asp-action="Details"
+                               asp-route-id="@raceEvent.EventID"
+                               class="btn btn-dark w-100">
+                                View Event
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+</div>

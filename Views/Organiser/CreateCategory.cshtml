@@ -1,0 +1,65 @@
+﻿@model RaceDay.MVC.Models.CategoryViewModel
+
+@{
+    ViewData["Title"] = "Create Category";
+    var events = ViewBag.Events as List<RaceDay.MVC.Models.OrganiserEventViewModel>
+                 ?? new List<RaceDay.MVC.Models.OrganiserEventViewModel>();
+}
+
+<div class="container mt-4">
+    <h2>Create Race Category</h2>
+    <p class="text-muted">Add a category to one of your events.</p>
+
+    <div class="card shadow-sm p-4 mt-3">
+        <form asp-action="CreateCategory" method="post">
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label class="form-label">Select Event</label>
+                <select asp-for="EventID" class="form-select">
+                    <option value="">Select an event</option>
+                    @foreach (var item in events)
+                    {
+                        <option value="@item.EventID">@item.EventName</option>
+                    }
+                </select>
+                <span asp-validation-for="EventID" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="CategoryName" class="form-label">Category Name</label>
+                <input asp-for="CategoryName" class="form-control" />
+                <span asp-validation-for="CategoryName" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ActivityType" class="form-label">Activity Type</label>
+                <select asp-for="ActivityType" class="form-select">
+                    <option value="">Select activity</option>
+                    <option value="Running">Running</option>
+                    <option value="Walking">Walking</option>
+                    <option value="Cycling">Cycling</option>
+                </select>
+                <span asp-validation-for="ActivityType" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="DistanceKM" class="form-label">Distance (KM)</label>
+                <input asp-for="DistanceKM" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="DistanceKM" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="EntryFee" class="form-label">Entry Fee (R)</label>
+                <input asp-for="EntryFee" type="number" step="0.01" class="form-control" />
+                <span asp-validation-for="EntryFee" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Create Category</button>
+
+            <a asp-action="Categories" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

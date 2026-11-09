@@ -1,0 +1,92 @@
+﻿@model List<RaceDay.MVC.Models.EnrolmentViewModel>
+
+@{
+    ViewData["Title"] = "My Enrolments";
+}
+
+<div class="container mt-5">
+
+    <div class="mb-4">
+        <h1 class="fw-bold">My Enrolments</h1>
+        <p class="text-muted">
+            Keep track of the races you have joined.
+        </p>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">
+            @ViewBag.Error
+        </div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="card shadow-sm">
+            <div class="card-body text-center p-5">
+                <h4>No Enrolments Yet</h4>
+                <p class="text-muted">
+                    You have not enrolled in any events yet.
+                </p>
+
+                <a asp-controller="Home"
+                   asp-action="Index"
+                   class="btn btn-dark">
+                    Explore Events
+                </a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+
+            @foreach (var enrolment in Model)
+            {
+                <div class="col-md-6 mb-4">
+
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+
+                            <h4 class="fw-bold">
+                                @enrolment.EventName
+                            </h4>
+
+                            <p>
+                                <strong>Category:</strong>
+                                @enrolment.CategoryName
+                            </p>
+
+                            <p>
+                                <strong>Enrolment Date:</strong>
+                                @enrolment.EnrolmentDate.ToString("dd MMMM yyyy")
+                            </p>
+
+                            <p>
+                                <strong>Status:</strong>
+
+                                @if (enrolment.EnrolmentStatus == "Active")
+                                {
+                                    <span class="badge bg-success">
+                                        @enrolment.EnrolmentStatus
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        @enrolment.EnrolmentStatus
+                                    </span>
+                                }
+
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
+</div>

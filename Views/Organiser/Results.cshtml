@@ -1,0 +1,83 @@
+﻿@model List<RaceDay.MVC.Models.OrganiserEnrolmentViewModel>
+
+@{
+    ViewData["Title"] = "Manage Results";
+}
+
+<div class="container mt-4">
+    <h2>Manage Race Results</h2>
+    <p class="text-muted">Record finishing times and positions for participants.</p>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No participant enrolments are available yet.
+        </div>
+    }
+    else
+    {
+        @foreach (var item in Model)
+        {
+            <div class="card shadow-sm mb-3">
+                <div class="card-body">
+                    <h5>Enrolment #@item.EnrolmentID</h5>
+
+                    <p>
+                        <strong>Participant ID:</strong> @item.ParticipantID<br />
+                        <strong>Event ID:</strong> @item.EventID<br />
+                        <strong>Category ID:</strong> @item.CategoryID<br />
+                        <strong>Enrolment Date:</strong> @item.EnrolmentDate.ToString("dd MMM yyyy")<br />
+                        <strong>Enrolment Status:</strong> @item.EnrolmentStatus
+                    </p>
+
+                    <form asp-action="SaveResult" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <input type="hidden" name="enrolmentId" value="@item.EnrolmentID" />
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Finish Time</label>
+                                <input type="text"
+                                       name="finishTime"
+                                       class="form-control"
+                                       placeholder="01:25:30" />
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Finishing Position</label>
+                                <input type="number"
+                                       name="position"
+                                       min="1"
+                                       class="form-control"
+                                       placeholder="1" />
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">Result Status</label>
+                                <select name="resultStatus" class="form-select">
+                                    <option value="Pending">Pending</option>
+                                    <option value="Published">Published</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            Save Result
+                        </button>
+                    </form>
+                </div>
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,56 @@
+﻿@model List<RaceDay.MVC.Models.CategoryViewModel>
+
+@{
+    ViewData["Title"] = "Manage Categories";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Manage Categories</h2>
+            <p class="text-muted">Manage race categories for your events.</p>
+        </div>
+
+        <a asp-action="CreateCategory" class="btn btn-primary">
+            + Add Category
+        </a>
+    </div>
+
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    @if (Model.Count == 0)
+    {
+        <div class="alert alert-info">
+            No categories available yet. Add a category to one of your events.
+        </div>
+    }
+    else
+    {
+        <div class="row g-4">
+            @foreach (var category in Model)
+            {
+                <div class="col-md-6 col-lg-4">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-body">
+                            <h5>@category.CategoryName</h5>
+
+                            <p><strong>Event:</strong> @category.EventName</p>
+                            <p><strong>Activity:</strong> @category.ActivityType</p>
+                            <p><strong>Distance:</strong> @category.DistanceKM km</p>
+                            <p><strong>Entry Fee:</strong> R @category.EntryFee</p>
+
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

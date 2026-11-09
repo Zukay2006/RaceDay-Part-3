@@ -1,0 +1,122 @@
+﻿@model RaceDay.MVC.Models.EventViewModel
+@using RaceDay.MVC.Models
+
+@{
+    ViewData["Title"] = "Event Details";
+
+    var categories = ViewBag.Categories as List<CategoryViewModel>
+                     ?? new List<CategoryViewModel>();
+}
+
+<div class="container mt-5">
+
+    <a asp-controller="Home" asp-action="Index"
+       class="btn btn-outline-dark mb-4">
+        &larr; Back to Events
+    </a>
+
+    <div class="card shadow">
+        <div class="card-body p-5">
+
+            <span class="badge bg-success mb-3">
+                @Model.Status
+            </span>
+
+            <h1 class="fw-bold">@Model.EventName</h1>
+
+            <p class="text-muted fs-5">@Model.Description</p>
+
+            <hr />
+
+            <h4 class="fw-bold mb-3">Event Information</h4>
+
+            <p><strong>Date:</strong> @Model.EventDate.ToString("dd MMMM yyyy")</p>
+            <p><strong>Location:</strong> @Model.Location</p>
+            <p><strong>Distance:</strong> @Model.DistanceKM km</p>
+            <p><strong>Event Type:</strong> @Model.EventType</p>
+
+            <hr />
+
+            <h4 class="fw-bold mb-3">Available Categories</h4>
+
+            @if (!categories.Any())
+            {
+                <div class="alert alert-info">
+                    No categories are currently available for this event.
+                </div>
+            }
+            else
+            {
+                <div class="row">
+                    @foreach (var category in categories)
+                    {
+                        <div class="col-md-6 mb-3">
+                            <div class="card h-100 border">
+                                <div class="card-body">
+                                    <h5 class="fw-bold">@category.CategoryName</h5>
+
+                                    <p><strong>Activity:</strong> @category.ActivityType</p>
+                                    <p><strong>Distance:</strong> @category.DistanceKM km</p>
+                                    <p><strong>Entry Fee:</strong> R @category.EntryFee.ToString("N2")</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <hr />
+
+                <h4 class="fw-bold mb-3">Enrol for this Event</h4>
+
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success">
+                        @TempData["Success"]
+                    </div>
+                }
+
+                @if (TempData["Error"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @TempData["Error"]
+                    </div>
+                }
+
+                <form asp-controller="Enrolments"
+                      asp-action="Create"
+                      method="post">
+
+                    <input type="hidden" name="EventID"
+                           value="@Model.EventID" />
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">
+                            Select your category
+                        </label>
+
+                        <select name="CategoryID"
+                                class="form-select" required>
+
+                            <option value="">Choose a category</option>
+
+                            @foreach (var category in categories)
+                            {
+                                <option value="@category.CategoryID">
+                                    @category.CategoryName - R @category.EntryFee.ToString("N2")
+                                </option>
+                            }
+
+                        </select>
+                    </div>
+
+                    <button type="submit"
+                            class="btn btn-dark btn-lg w-100">
+                        Enrol Now
+                    </button>
+
+                </form>
+            }
+
+        </div>
+    </div>
+</div>
