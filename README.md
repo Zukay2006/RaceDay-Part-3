@@ -1,6 +1,6 @@
 # RaceDay – Part 3: MVC Web Application
 
-## Project Overview
+## Project Overview 
 
 **RaceDay** is a web-based event management platform developed using ASP.NET Core MVC. It provides an interface for participants to discover and enrol in sporting events, while organisers can manage events, categories, enrolments and results.
 
